@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #responseMessage {
+            margin: 20px 0;
+            color: green;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>Interactive Web App</h2>
+    <div id="responseMessage"></div>
+    <button onclick="doSomething()">Does this do anything?</button>
+</div>
+
+<script>
+    async function doSomething() {
+        const responseMessage = document.getElementById('responseMessage');
+
+        // Send request to Flask endpoint
+        try {
+            const response = await fetch('/do_something', { method: 'POST' });
+            const data = await response.json();
+
+            // Show response message
+            responseMessage.textContent = data.message;
+
+            // Clear message after a few seconds
+            setTimeout(() => {
+                responseMessage.textContent = '';
+            }, 3000);
+        } catch (error) {
+            responseMessage.textContent = 'Something went wrong!';
+        }
+    }
+</script>
+
+</body>
+</html>
